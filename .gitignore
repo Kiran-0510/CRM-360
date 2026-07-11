@@ -1,0 +1,11 @@
+data/raw/
+data/processed/
+*.csv
+*.parquet
+__pycache__/
+*.pyc
+.env
+venv/
+derby.log
+metastore_db/
+.DS_Store
