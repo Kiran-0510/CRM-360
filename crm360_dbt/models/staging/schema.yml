@@ -1,0 +1,57 @@
+version: 2
+
+models:
+  - name: stg_customers
+    description: "Cleaned and renamed customer records. One row per customer."
+    columns:
+      - name: customer_id
+        description: "Primary key"
+        tests:
+          - unique
+          - not_null
+      - name: email
+        tests:
+          - not_null
+      - name: loyalty_tier
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['BRONZE', 'SILVER', 'GOLD', 'PLATINUM']
+
+  - name: stg_transactions
+    description: "Cleaned transactions. Excludes quarantined rows from PySpark."
+    columns:
+      - name: transaction_id
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        tests:
+          - not_null
+      - name: amount
+        tests:
+          - not_null
+      - name: channel
+        tests:
+          - accepted_values:
+              values: ['web', 'mobile_app', 'in_store', 'call_center']
+
+  - name: stg_loyalty_events
+    description: "Loyalty tier change events per customer."
+    columns:
+      - name: customer_id
+        tests:
+          - not_null
+      - name: event_date
+        tests:
+          - not_null
+
+  - name: stg_support_ticket_messages
+    description: "Flattened support ticket messages. One row per message."
+    columns:
+      - name: ticket_id
+        tests:
+          - not_null
+      - name: customer_id
+        tests:
+          - not_null

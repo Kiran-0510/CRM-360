@@ -1,0 +1,15 @@
+version: 2
+
+sources:
+  - name: raw
+    database: CRM360
+    schema: RAW
+    tables:
+      - name: customers
+        description: "Raw customer records from PySpark cleaning job"
+      - name: transactions
+        description: "Raw transactions, cleaned and quarantine-filtered by PySpark"
+      - name: support_ticket_messages
+        description: "Flattened support ticket messages, exploded from nested JSON by PySpark"
+      - name: loyalty_events
+        description: "Customer loyalty tier change events"
