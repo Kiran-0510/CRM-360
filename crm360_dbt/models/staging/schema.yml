@@ -6,52 +6,52 @@ models:
     columns:
       - name: customer_id
         description: "Primary key"
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: email
-        tests:
+        data_tests:
           - not_null
       - name: loyalty_tier
-        tests:
+        data_tests:
           - not_null
           - accepted_values:
-              values: ['BRONZE', 'SILVER', 'GOLD', 'PLATINUM']
+              values: ["BRONZE", "SILVER", "GOLD", "PLATINUM"]
 
   - name: stg_transactions
     description: "Cleaned transactions. Excludes quarantined rows from PySpark."
     columns:
       - name: transaction_id
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: customer_id
-        tests:
+        data_tests:
           - not_null
       - name: amount
-        tests:
+        data_tests:
           - not_null
       - name: channel
-        tests:
+        data_tests:
           - accepted_values:
-              values: ['web', 'mobile_app', 'in_store', 'call_center']
+              values: ["web", "mobile_app", "in_store", "call_center"]
 
   - name: stg_loyalty_events
     description: "Loyalty tier change events per customer."
     columns:
       - name: customer_id
-        tests:
+        data_tests:
           - not_null
       - name: event_date
-        tests:
+        data_tests:
           - not_null
 
   - name: stg_support_ticket_messages
     description: "Flattened support ticket messages. One row per message."
     columns:
       - name: ticket_id
-        tests:
+        data_tests:
           - not_null
       - name: customer_id
-        tests:
+        data_tests:
           - not_null

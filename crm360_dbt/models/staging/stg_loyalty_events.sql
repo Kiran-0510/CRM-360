@@ -8,7 +8,7 @@ renamed as (
         lower(event_type)                           as event_type,
         upper(new_tier)                             as new_tier,
         try_to_date(event_date, 'YYYY-MM-DD')       as event_date,
-        current_timestamp()                         as _loaded_at
+        '{{ run_started_at }}'::timestamp as _loaded_at
     from source
     where customer_id is not null
       and try_to_date(event_date, 'YYYY-MM-DD') is not null

@@ -11,7 +11,7 @@ renamed as (
         lower(message_sender)           as message_sender,
         message_text,
         message_sent_at::timestamp      as message_sent_at,
-        current_timestamp()             as _loaded_at
+        '{{ run_started_at }}'::timestamp as _loaded_at
     from source
     where ticket_id is not null
       and customer_id is not null
