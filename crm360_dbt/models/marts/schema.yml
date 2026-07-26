@@ -1,0 +1,78 @@
+version: 2
+
+models:
+  - name: dim_customer
+    description: "SCD2 customer dimension. One row per customer per loyalty tier state."
+    columns:
+      - name: customer_sk
+        description: "Surrogate key — unique identifier for each customer version"
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: "Natural key — same across all versions of the same customer"
+        data_tests:
+          - not_null
+      - name: loyalty_tier
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ["BRONZE", "SILVER", "GOLD", "PLATINUM"]
+      - name: valid_from
+        data_tests:
+          - not_null
+      - name: valid_to
+        data_tests:
+          - not_null
+      - name: is_current
+        data_tests:
+          - not_null
+
+  - name: fact_transactions
+    description: "One row per transaction. Incremental load. Point-in-time correct loyalty tier."
+    columns:
+      - name: transaction_id
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_id
+        data_tests:
+          - not_null
+      - name: amount
+        data_tests:
+          - not_null
+      - name: event_timestamp
+        data_tests:
+          - not_null
+
+  - name: fact_support
+    description: "One row per support ticket. Point-in-time correct customer attributes."
+    columns:
+      - name: ticket_id
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_id
+        data_tests:
+          - not_null
+
+  - name: feature_store_customer
+    description: "ML-ready features per customer. One row per current customer. Sentinel value 999 used for days_since_last_transaction where no transaction history exists."
+    columns:
+      - name: customer_id
+        data_tests:
+          - unique
+          - not_null
+      - name: total_spend_lifetime
+        data_tests:
+          - not_null
+      - name: days_since_last_transaction
+        description: "Days since last transaction. 999 = never transacted — sentinel value, not a literal day count."
+        data_tests:
+          - not_null
+      - name: is_high_value_customer
+        data_tests:
+          - not_null
+      - name: is_at_churn_risk
+        data_tests:
+          - not_null
