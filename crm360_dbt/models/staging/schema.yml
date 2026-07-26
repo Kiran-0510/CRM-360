@@ -55,3 +55,9 @@ models:
       - name: customer_id
         data_tests:
           - not_null
+  - name: days_since_last_transaction
+    description: >
+      Days since the customer's most recent transaction as of the pipeline run date.
+      Customers with no transaction history are assigned 999 as a sentinel value
+      indicating never-transacted status. Do not treat 999 as a literal day count
+      in downstream models.
