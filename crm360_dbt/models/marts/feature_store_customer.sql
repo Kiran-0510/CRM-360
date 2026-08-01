@@ -141,7 +141,7 @@ final as (
 
         -- ML signals
         case
-            when coalesce(l.total_spend_lifetime, 0) > 5000
+            when coalesce(l.total_spend_lifetime, 0) > 500
                 then true
             else false
         end                                             as is_high_value_customer,
